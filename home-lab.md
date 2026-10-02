@@ -14,15 +14,14 @@ Atomic Red Team -> Windows 10 (Sysmon + Security log) -> Universal Forwarder -> 
 ```
 ![architecture](Images/home_architecture.png)
 
-## Techniques Covered
-
 ## Techniques & Activity Covered
 
 | Activity | ATT&CK ID | Log source |
 |---|---|---|
 | PowerShell execution | T1059.001 | Sysmon EventID 1 |
-| Local account creation | T1136.001 | Security 4726 / 4798 + Sysmon EventID 1 |
 | Scheduled task persistence | T1053.005 | Sysmon EventID 1 (`schtasks.exe`) |
+| SMB brute force | T1110 | Security 4625 |
+
 
 ## Setup
 
@@ -54,21 +53,7 @@ index=main bypass
 
 ![T1059.001 detection](Images/bypass.png)
 
-## 2. Local Account Creation (T1136.001)
-
-**Simulation:** `Invoke-AtomicTest T1136.001`. Some tests reported the account already existed. The .NET test created `NewLocalUser`, added it to Administrators, then deleted it.
-
-![Atomic T1136.001 run](Images/T1136.png)
-
-**Detection:** Security events for `NewLocalUser` (4798 and 4726) alongside the Sysmon process creation for `net1.exe`.
-
-```spl
-index=main NewLocalUser
-```
-
-![T1136.001 detection](Images/newlocaluser.png)
-
-## 3. Scheduled Task Persistence (T1053.005)
+## 2. Scheduled Task Persistence (T1053.005)
 
 **Simulation:**
 
@@ -87,19 +72,25 @@ Tasks confirmed via:
 index=main EventCode=1  CommandLine="schtasks.exe"
 ```
 
-![Atomic T1053.005 run](Images/splunk_scheduled_tasks.png)
+![Atomic T1053.005 detection](Images/splunk_scheduled_tasks.png)
 
-## 4. Failed SMB Logon (Event ID 4625)
+## 3. SMB Brute Force (T1110, Event ID 4625)
 
-Simulation: A failed SMB authentication attempt against the Windows 10 VM.
+**Simulation:** Repeated SMB login attempts against the Windows 10 VM using `smbclient` from Kali, targeting a nonexistent share with the real `vboxuser` account and wrong passwords:
 
-Detection:
+```bash
+smbclient //192.168.56.102/SMBTest -U vboxuser
+```
+
+![SMB brute-force attempts](Images/smb_bruteforce.png)
+
+**Detection:**
 
 ```spl
-
 index=main EventCode=4625
 ```
-![failed_login](Images/4625.png)
+
+![4625 detection in Splunk](Images/4625_detection.png)
 
 ## Dashboard
 
