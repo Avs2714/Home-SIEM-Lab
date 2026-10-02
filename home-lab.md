@@ -29,6 +29,10 @@ Atomic Red Team ──────────┘
 
 ## Setup
 
+Universal Forwarder `inputs.conf`, showing both Sysmon and Windows Security log collection enabled (`index = main`, `disabled = 0`):
+
+![inputs.conf](Images/inputs.conf.png)
+
 Universal Forwarder output, pointing to Splunk Enterprise on port 9997:
 
 ![outputs.conf](Images/outputs_2.png)
