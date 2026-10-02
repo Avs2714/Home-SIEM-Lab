@@ -94,9 +94,11 @@ index=main EventCode=4625
 
 ## Dashboard
 
-![Windows Security Monitoring Dashboard](Images/dashboard.png)
+![Windows Security Monitoring Dashboard](Images/dashboard_1.png)
 
-Panels: failed logons over time, top process command lines, new user account activity, security event counts by code.
+![Windows Security Monitoring Dashboard](Images/dashboard_2.png)
+
+Panels: failed logons over time, top process command lines, security event counts by code.
 
 
 
