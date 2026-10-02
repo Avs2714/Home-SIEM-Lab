@@ -7,11 +7,15 @@ A small home lab where I simulate attacker techniques with Atomic Red Team on a 
 | Component | Role |
 |---|---|
 | Windows 10 VM (VirtualBox) | Target: Sysmon + Splunk Universal Forwarder, Atomic Red Team |
+| Kali Linux VM | Attacker: `smbclient` SMB brute-force source |
 | Splunk Enterprise | SIEM, receiving forwarded events on TCP 9997 |
 
 ```text
-Atomic Red Team -> Windows 10 (Sysmon + Security log) -> Universal Forwarder -> TCP 9997 -> Splunk Enterprise
+Kali Linux (smbclient) ──┐
+                           ├──> Windows 10 (Sysmon + Security log) -> Universal Forwarder -> TCP 9997 -> Splunk Enterprise
+Atomic Red Team ──────────┘
 ```
+
 ![architecture](Images/home_architecture.png)
 
 ## Techniques & Activity Covered
@@ -19,7 +23,7 @@ Atomic Red Team -> Windows 10 (Sysmon + Security log) -> Universal Forwarder -> 
 | Activity | ATT&CK ID | Log source |
 |---|---|---|
 | PowerShell execution | T1059.001 | Sysmon EventID 1 |
-| Scheduled task persistence | T1053.005 | Sysmon EventID 1 (`schtasks.exe`) |
+| Scheduled task creation | T1053.005 | Sysmon EventID 1 (`schtasks.exe`) |
 | SMB brute force | T1110 | Security 4625 |
 
 
@@ -53,7 +57,7 @@ index=main bypass
 
 ![T1059.001 detection](Images/bypass.png)
 
-## 2. Scheduled Task Persistence (T1053.005)
+## 2. Scheduled Task Creation (T1053.005)
 
 **Simulation:**
 
