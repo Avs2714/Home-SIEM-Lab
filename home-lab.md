@@ -82,7 +82,7 @@ index=main EventCode=1  CommandLine="schtasks.exe"
 smbclient //192.168.56.102/SMBTest -U vboxuser
 ```
 
-![SMB brute-force attempts](Images/smb_bruteforce.png)
+![SMB brute-force attempts](Images/bruteforce.png)
 
 **Detection:**
 
@@ -90,7 +90,7 @@ smbclient //192.168.56.102/SMBTest -U vboxuser
 index=main EventCode=4625
 ```
 
-![4625 detection in Splunk](Images/4625_detection.png)
+![4625 detection in Splunk](Images/4625.png)
 
 ## Dashboard
 
